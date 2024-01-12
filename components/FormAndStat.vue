@@ -1,5 +1,21 @@
 <template>
-  <input id="file" type="file">
+  <div>
+    <div>
+      <form>
+        <label for="file"><span class="file-upload-icon" />файлик</label>
+        <input id="file" type="file" hidden>
+        <div class="year">
+          <label for="year">итоги за</label>
+          <select id="year" name="year">
+            <option select value="2023">
+              2023
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <TelegramStat />
+  </div>
 </template>
 
 <script>
@@ -100,10 +116,15 @@ export default {
 
         const messages = results.chats.list
 
-        console.log('myId', myId)
-        console.log('messages', messages)
+        const stat = ChatStatistic.countStat(messages, myId, 2023)
 
-        console.log('stat', ChatStatistic.countStat(messages, myId, 2023))
+        const statBlock = document.getElementById('stat')
+
+        statBlock.innerHTML = `<p>Все сообщения: ${stat.allMessages}</p>`
+        if (myId !== null) {
+          statBlock.innerHTML += `<p>Ваши сообщения: ${stat.myMessages}</p>`
+          statBlock.innerHTML += `<p>Полученные сообщения: ${stat.allMessages - stat.myMessages}</p>`
+        }
       }
       reader.onerror = () => {
         console.log(reader.error)
