@@ -66,7 +66,9 @@ export default {
             }
           }
 
-          chats.push(chatStat)
+          if (chatStat.allMessages !== 0) {
+            chats.push(chatStat)
+          }
         }
 
         chats.sort((a, b) => b.allMessages - a.allMessages)
