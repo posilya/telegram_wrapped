@@ -6,21 +6,24 @@
         <input id="file" type="file" hidden>
         <div class="year">
           <label for="year">итоги за</label>
-          <select id="year" name="year">
-            <option select value="2023">
-              2023
-            </option>
-          </select>
+          <select id="year" name="year" />
         </div>
       </form>
     </div>
-    <TelegramStat />
+    <TelegramStat v-if="statIsShown" :stat="telegramStat" :year="statYear" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'FormAndStat',
+  data () {
+    return {
+      statIsShown: false,
+      telegramStat: null,
+      statYear: null
+    }
+  },
   mounted () {
     class ChatStatistic {
       #name
@@ -28,12 +31,13 @@ export default {
       #myMessages
 
       constructor (name) {
-        this.name = name
+        this.#name = name
         this.#allMessages = 0
         this.#myMessages = 0
       }
 
       static countStat (messages, myId, year) {
+        year = Number(year)
         const chats = []
         let allMessages = 0
         let myMessages = 0
@@ -99,6 +103,18 @@ export default {
       }
     }
 
+    const now = new Date()
+    const defaultYear = now.getMonth() === 1 ? now.getFullYear() : now.getFullYear() - 1
+
+    const years = []
+    for (let year = now.getFullYear(); year >= 2013; year--) {
+      years.push(year)
+    }
+
+    document.getElementById('year').innerHTML = years.map((year) => {
+      return `<option ${year === defaultYear ? 'selected' : ''} value="${year}">${year}</option>`
+    }).join('')
+
     document.getElementById('file').addEventListener('change', (event) => {
       const file = event.target.files[0]
       const reader = new FileReader()
@@ -116,20 +132,30 @@ export default {
 
         const messages = results.chats.list
 
-        const stat = ChatStatistic.countStat(messages, myId, 2023)
+        const stat = ChatStatistic.countStat(messages, myId, document.getElementById('year').value)
 
-        const statBlock = document.getElementById('stat')
+        console.log(stat)
+        this.showStat(stat, document.getElementById('year').value)
 
-        statBlock.innerHTML = `<p>Все сообщения: ${stat.allMessages}</p>`
-        if (myId !== null) {
-          statBlock.innerHTML += `<p>Ваши сообщения: ${stat.myMessages}</p>`
-          statBlock.innerHTML += `<p>Полученные сообщения: ${stat.allMessages - stat.myMessages}</p>`
-        }
+        // const statBlock = document.getElementById('stat')
+
+        // statBlock.innerHTML = `<p>Все сообщения: ${stat.allMessages}</p>`
+        // if (myId !== null) {
+        //   statBlock.innerHTML += `<p>Ваши сообщения: ${stat.myMessages}</p>`
+        //   statBlock.innerHTML += `<p>Полученные сообщения: ${stat.allMessages - stat.myMessages}</p>`
+        // }
       }
       reader.onerror = () => {
         console.log(reader.error)
       }
     })
+  },
+  methods: {
+    showStat (stat, year) {
+      this.telegramStat = stat
+      this.statYear = year
+      this.statIsShown = true
+    }
   }
 }
 </script>

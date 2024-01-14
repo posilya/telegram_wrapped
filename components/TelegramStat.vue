@@ -1,46 +1,21 @@
 <template>
   <div>
-    <h2>Ваш топ контактов в 2023</h2>
-    <div class="top-contacts">
-      <div class="line">
-        <div class="rank">
-          <div>
-            1
+    <p v-if="!stat || !year">
+      Что-то пошло не так…
+    </p>
+    <p v-else-if="stat.chats.length === 0">
+      За {{ year }} год не было сообщений
+    </p>
+    <div v-else>
+      <h2>Ваш топ контактов в {{ year }}</h2>
+      <div class="top-contacts">
+        <div v-for="(chat, index) in stat.chats" :key="index" class="line">
+          <div class="rank">
+            {{ index + 1 }}
           </div>
+          <p v-if="!chat.name">Удалённый аккаунт</p>
+          <p v-else>{{ chat.name }}</p>
         </div>
-        <p>Алина Кабаева</p>
-      </div>
-      <div class="line">
-        <div class="rank">
-          <div>
-            2
-          </div>
-        </div>
-        <p>Константин Константинопольский</p>
-      </div>
-      <div class="line">
-        <div class="rank">
-          <div>
-            3
-          </div>
-        </div>
-        <p>Евген Попов</p>
-      </div>
-      <div class="line">
-        <div class="rank">
-          <div>
-            4
-          </div>
-        </div>
-        <p>Павел Дуров</p>
-      </div>
-      <div class="line">
-        <div class="rank">
-          <div>
-            5
-          </div>
-        </div>
-        <p>Фейк Чарли Чаплина</p>
       </div>
     </div>
   </div>
@@ -48,6 +23,16 @@
 
 <script>
 export default {
-  name: 'TelegramStat'
+  name: 'TelegramStat',
+  props: {
+    stat: {
+      type: Object,
+      default: null
+    },
+    year: {
+      type: Number,
+      default: null
+    }
+  }
 }
 </script>
