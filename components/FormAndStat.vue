@@ -50,7 +50,7 @@ export default {
           const chatStat = new ChatStatistic(chat.name)
 
           for (const message of chat.messages) {
-            const messageDate = new Date(message.date)
+            const messageDate = new Date(message.date_unixtime * 1000)
 
             if (messageDate.getFullYear() !== year) {
               continue
@@ -105,28 +105,24 @@ export default {
       }
     }
 
-    const now = new Date()
-    const defaultYear = now.getMonth() === 1 ? now.getFullYear() : now.getFullYear() - 1
+    const yearSelect = document.getElementById('year')
+    const file = document.getElementById('file')
 
-    const years = []
-    for (let year = now.getFullYear(); year >= 2013; year--) {
-      years.push(year)
-    }
+    const showStat = this.showStat
 
-    document.getElementById('year').innerHTML = years.map((year) => {
-      return `<option ${year === defaultYear ? 'selected' : ''} value="${year}">${year}</option>`
-    }).join('')
+    function updateStat () {
+      if (!yearSelect.value || file.files.length === 0) {
+        return
+      }
 
-    document.getElementById('file').addEventListener('change', (event) => {
-      const file = event.target.files[0]
       const reader = new FileReader()
 
-      reader.readAsText(file)
+      reader.readAsText(file.files[0])
 
       reader.onload = () => {
         const results = JSON.parse(reader.result)
 
-        const myId = typeof results.personal_information === 'undefined' ? null : results.personal_information.user_id
+        const myId = typeof results.personal_information === 'undefined' ? null : results.personal_information.user_id // TODO transfer a constant to the method of the statistics class
 
         if (typeof results.chats === 'undefined') {
           throw new TypeError('No chats')
@@ -134,10 +130,10 @@ export default {
 
         const messages = results.chats.list
 
-        const stat = ChatStatistic.countStat(messages, myId, document.getElementById('year').value)
+        const stat = ChatStatistic.countStat(messages, myId, yearSelect.value)
 
         console.log(stat)
-        this.showStat(stat, document.getElementById('year').value)
+        showStat(stat, yearSelect.value)
 
         // const statBlock = document.getElementById('stat')
 
@@ -150,12 +146,27 @@ export default {
       reader.onerror = () => {
         console.log(reader.error)
       }
-    })
+    }
+
+    file.addEventListener('change', updateStat)
+    yearSelect.addEventListener('change', updateStat)
+
+    const now = new Date()
+    const defaultYear = now.getMonth() === 1 ? now.getFullYear() : now.getFullYear() - 1
+
+    const years = []
+    for (let year = now.getFullYear(); year >= 2013; year--) {
+      years.push(year)
+    }
+
+    document.getElementById('year').innerHTML = years.map((year) => {
+      return `<option ${year === defaultYear ? 'selected' : ''} value="${year}">${year}</option>`
+    }).join('')
   },
   methods: {
     showStat (stat, year) {
       this.telegramStat = stat
-      this.statYear = year
+      this.statYear = Number(year)
       this.statIsShown = true
     }
   }
