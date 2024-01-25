@@ -50,7 +50,7 @@ export default {
           const chatStat = new ChatStatistic(chat.name)
 
           for (const message of chat.messages) {
-            const messageDate = new Date(message.date)
+            const messageDate = new Date(message.date_unixtime * 1000)
 
             if (messageDate.getFullYear() !== year) {
               continue
@@ -130,7 +130,7 @@ export default {
 
         const messages = results.chats.list
 
-        const stat = ChatStatistic.countStat(messages, myId, yearSelect)
+        const stat = ChatStatistic.countStat(messages, myId, yearSelect.value)
 
         console.log(stat)
         showStat(stat, yearSelect.value)
