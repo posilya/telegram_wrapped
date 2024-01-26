@@ -25,52 +25,81 @@ export default {
     }
   },
   mounted () {
+    /**
+     * Class for counting statistics
+     * @param {string} name - chat name
+     * @param {number} allMessages - counter of all chat messages
+     * @param {number} myMessages - counter of user chat messages
+     */
     class ChatStatistic {
       #name
       #allMessages
       #myMessages
 
+      /**
+       * Class for counting statistics
+       * @param {string} name - chat name
+       */
       constructor (name) {
         this.#name = name
         this.#allMessages = 0
         this.#myMessages = 0
       }
 
+      /**
+       * Stat counting function
+       * @param {array} messages - array of chats and messages
+       * @param {number} myId - user id
+       * @param {number} year - year, for witch stat are counted
+       * @returns {object}
+       */
       static countStat (messages, myId, year) {
-        year = Number(year)
+        /** Founded non-empty chats */
         const chats = []
+
+        /** Counter of all messages for all chats */
         let allMessages = 0
+
+        /** Counter of user messages for all chats */
         let myMessages = 0
 
         for (const chat of messages) {
+          // count only personal chats
           if (chat.type !== 'personal_chat') {
             continue
           }
 
+          /** Object for counting this chat */
           const chatStat = new ChatStatistic(chat.name)
 
           for (const message of chat.messages) {
+            /** Date of the message */
             const messageDate = new Date(message.date_unixtime * 1000)
 
             if (messageDate.getFullYear() !== year) {
               continue
             }
 
+            // count only really messages
             if (message.type === 'message') {
               chatStat.incAllMessages()
               allMessages++
-            }
-            if (message.from_id === `user${myId}`) {
-              chatStat.incMyMessages()
-              myMessages++
+
+              // if this message is from user
+              if (message.from_id === `user${myId}`) {
+                chatStat.incMyMessages()
+                myMessages++
+              }
             }
           }
 
+          // don't count chats without messages
           if (chatStat.allMessages !== 0) {
             chats.push(chatStat)
           }
         }
 
+        // chats with a lot of messages in the top
         chats.sort((a, b) => b.allMessages - a.allMessages)
 
         return {
@@ -80,36 +109,65 @@ export default {
         }
       }
 
+      /**
+       * chat name
+       * @returns {string}
+       */
       get name () {
         return this.#name
       }
 
+      /**
+       * chat name
+       * @param {string} name - chat name
+       */
       set name (name) {
         this.#name = String(name)
       }
 
+      /**
+       * counter of all chat messages
+       * @returns {number}
+       */
       get allMessages () {
         return this.#allMessages
       }
 
+      /**
+       * Incriminate the counter of all chat messages
+       */
       incAllMessages () {
         this.#allMessages++
       }
 
+      /**
+       * counter of user chat messages
+       * @returns {number}
+       */
       get myMessages () {
         return this.#myMessages
       }
 
+      /**
+       * Incriminate the counter of user chat messages
+       */
       incMyMessages () {
         this.#myMessages++
       }
     }
 
+    /** DOM-element year (<select>) */
     const yearSelect = document.getElementById('year')
+
+    /** DOM-element file-upload (<input type="file">) */
     const file = document.getElementById('file')
 
+    // IDK why everything stopped working without it
     const showStat = this.showStat
 
+    /**
+     * Function for count and show statistics
+     */
     function updateStat () {
       if (!yearSelect.value || file.files.length === 0) {
         return
@@ -120,17 +178,22 @@ export default {
       reader.readAsText(file.files[0])
 
       reader.onload = () => {
+        /** Telegram data */
         const results = JSON.parse(reader.result)
 
+        /** User id */
         const myId = typeof results.personal_information === 'undefined' ? null : results.personal_information.user_id // TODO transfer a constant to the method of the statistics class
 
+        // if there are no chats, then there is nothing to count
         if (typeof results.chats === 'undefined') {
           throw new TypeError('No chats')
         }
 
-        const messages = results.chats.list
+        /** User chats */
+        const chats = results.chats.list
 
-        const stat = ChatStatistic.countStat(messages, myId, yearSelect.value)
+        /** User statistics */
+        const stat = ChatStatistic.countStat(chats, myId, Number(yearSelect.value))
 
         console.log(stat)
         showStat(stat, yearSelect.value)
@@ -151,6 +214,7 @@ export default {
     file.addEventListener('change', updateStat)
     yearSelect.addEventListener('change', updateStat)
 
+    // We fill in the years that you can choose
     const now = new Date()
     const defaultYear = now.getMonth() === 1 ? now.getFullYear() : now.getFullYear() - 1
 
