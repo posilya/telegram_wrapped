@@ -32,6 +32,12 @@ export default {
      * @param {number} myMessages - counter of user chat messages
      */
     class ChatStatistic {
+      /**
+       * Array of months
+       * @type {string[]}
+       */
+      static numToMonths = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
       #name
       #allMessages
       #myMessages
@@ -66,6 +72,9 @@ export default {
         /** Counter of user messages for all chats */
         let myMessages = 0
 
+        /** First message */
+        let firstMessage = { date_unixtime: Number.MAX_SAFE_INTEGER }
+
         for (const chat of messages) {
           // count only personal chats
           if (chat.type !== 'personal_chat') {
@@ -93,6 +102,11 @@ export default {
                 chatStat.incMyMessages()
                 myMessages++
               }
+
+              if (messageDate.getTime() < firstMessage.date_unixtime * 1000) {
+                firstMessage = message
+                firstMessage.chatName = chat.name
+              }
             }
           }
 
@@ -107,9 +121,20 @@ export default {
         chats.sort((a, b) => b.allMessages - a.allMessages)
         chats = chats.slice(0, 5)
 
+        const firstMessageDate = new Date(firstMessage.date_unixtime * 1000)
+        firstMessage = {
+          date: `${firstMessageDate.getDate()} ${ChatStatistic.numToMonths[firstMessageDate.getMonth()]}${year === -1 ? ' ' + firstMessageDate.getFullYear() : ''} в ${String(firstMessageDate.getHours()).padStart(2, '0')}:${String(firstMessageDate.getMinutes()).padStart(2, '0')}`,
+          destination: [
+            myId == null ? 'unknown' : firstMessage.from_id === `user${myId}` ? 'to' : 'from',
+            firstMessage.chatName
+          ],
+          text: firstMessage.text
+        }
+
         return {
           chats,
           numberOfChats,
+          firstMessage,
           allMessages,
           myMessages
         }
