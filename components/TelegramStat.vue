@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="first-message">
-        <h1>Первое сообщение<span v-if="year != -1"> в {{ year }} году</span> было <span v-if="stat.firstMessage.destination[0] == 'unknown'">в чате с</span><span v-else-if="stat.firstMessage.destination[0] == 'from'">от</span> <span v-else-if="stat.firstMessage.destination[0] == 'to'">для</span> {{ stat.firstMessage.destination[1] }} {{ stat.firstMessage.date }}</h1>
+        <h2>Первое сообщение<span v-if="year != -1"> в {{ year }} году</span> было <span v-if="stat.firstMessage.destination[0] == 'unknown'">в чате с</span><span v-else-if="stat.firstMessage.destination[0] == 'from'">от</span> <span v-else-if="stat.firstMessage.destination[0] == 'to'">для</span> {{ stat.firstMessage.destination[1] }} {{ stat.firstMessage.date }}</h2>
         <p>{{ stat.firstMessage.text }}</p>
       </div>
     </div>
