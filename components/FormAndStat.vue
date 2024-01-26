@@ -55,7 +55,10 @@ export default {
        */
       static countStat (messages, myId, year) {
         /** Founded non-empty chats */
-        const chats = []
+        let chats = []
+
+        /** Counter of all chats */
+        let numberOfChats = 0
 
         /** Counter of all messages for all chats */
         let allMessages = 0
@@ -76,7 +79,7 @@ export default {
             /** Date of the message */
             const messageDate = new Date(message.date_unixtime * 1000)
 
-            if (messageDate.getFullYear() !== year) {
+            if (year !== -1 && messageDate.getFullYear() !== year) {
               continue
             }
 
@@ -96,14 +99,17 @@ export default {
           // don't count chats without messages
           if (chatStat.allMessages !== 0) {
             chats.push(chatStat)
+            numberOfChats++
           }
         }
 
-        // chats with a lot of messages in the top
+        // chats with a lot of messages in the top 5
         chats.sort((a, b) => b.allMessages - a.allMessages)
+        chats = chats.slice(0, 5)
 
         return {
           chats,
+          numberOfChats,
           allMessages,
           myMessages
         }
@@ -223,9 +229,11 @@ export default {
       years.push(year)
     }
 
-    document.getElementById('year').innerHTML = years.map((year) => {
+    yearSelect.innerHTML = years.map((year) => {
       return `<option ${year === defaultYear ? 'selected' : ''} value="${year}">${year}</option>`
     }).join('')
+
+    yearSelect.innerHTML = '<option selected value="-1">всё время</option>' + yearSelect.innerHTML
   },
   methods: {
     showStat (stat, year) {
