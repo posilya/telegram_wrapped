@@ -75,6 +75,9 @@ export default {
         /** First message */
         let firstMessage = { date_unixtime: Number.MAX_SAFE_INTEGER }
 
+        /** User sended emoji collection */
+        let emojis = new Map()
+
         for (const chat of messages) {
           // count only personal chats
           if (chat.type !== 'personal_chat') {
@@ -85,6 +88,11 @@ export default {
           const chatStat = new ChatStatistic(chat.name)
 
           for (const message of chat.messages) {
+            // don't count forwarded messages
+            if (message.forwarded_from) {
+              continue
+            }
+
             /** Date of the message */
             const messageDate = new Date(message.date_unixtime * 1000)
 
@@ -98,11 +106,24 @@ export default {
               allMessages++
 
               // if this message is from user
-              if (message.from_id === `user${myId}`) {
+              if (myId && message.from_id === `user${myId}`) {
                 chatStat.incMyMessages()
                 myMessages++
+
+                // count emojis
+                const messageEmojis = ChatStatistic.messageTextEntitiesToString(message).match(/(\p{Emoji}\uFE0F|\p{Emoji_Presentation})/gu)
+                if (messageEmojis) {
+                  for (const emoji of messageEmojis) {
+                    if (!emojis.has(emoji)) {
+                      emojis.set(emoji, 1)
+                    } else {
+                      emojis.set(emoji, emojis.get(emoji) + 1)
+                    }
+                  }
+                }
               }
 
+              // find the first message
               if (messageDate.getTime() < firstMessage.date_unixtime * 1000) {
                 firstMessage = message
                 firstMessage.chatName = chat.name
@@ -121,6 +142,9 @@ export default {
         chats.sort((a, b) => b.allMessages - a.allMessages)
         chats = chats.slice(0, 5)
 
+        // sort emojis
+        emojis = Array.from(emojis.entries()).sort((a, b) => b[1] - a[1])
+
         const firstMessageDate = new Date(firstMessage.date_unixtime * 1000)
         firstMessage = {
           date: `${firstMessageDate.getDate()} ${ChatStatistic.numToMonths[firstMessageDate.getMonth()]}${year === -1 ? ' ' + firstMessageDate.getFullYear() : ''} в ${String(firstMessageDate.getHours()).padStart(2, '0')}:${String(firstMessageDate.getMinutes()).padStart(2, '0')}`,
@@ -128,16 +152,25 @@ export default {
             myId == null ? 'unknown' : firstMessage.from_id === `user${myId}` ? 'to' : 'from',
             firstMessage.chatName
           ],
-          text: firstMessage.text
+          text: ChatStatistic.messageTextEntitiesToString(firstMessage)
         }
 
         return {
           chats,
           numberOfChats,
           firstMessage,
+          emojis,
           allMessages,
           myMessages
         }
+      }
+
+      /**
+       * Convert message text entities to string
+       * @param {object} message - message
+       */
+      static messageTextEntitiesToString (message) {
+        return message.text_entities.map(entity => entity.text).join('')
       }
 
       /**
