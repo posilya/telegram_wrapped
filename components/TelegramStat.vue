@@ -28,9 +28,13 @@
         <p>{{ stat.firstMessage.text }}</p>
       </div>
       <div class="number-of-messages">
-        <h2><span v-if="stat.myMessages > 0">{{ stat.myMessages }}</span><span v-else>{{ stat.allMessages }}</span> сообщений</h2>
-        <p v-if="stat.myMessages > 0">вы <span v-if="year != -1">отправили в {{ year }} году</span><span v-else>успели отправить за всё время</span>. А получили {{ stat.allMessages - stat.myMessages }}, вместе это {{ stat.allMessages }} сообщений!</p>
-        <p v-else>было <span v-if="year != -1">в {{ year }} году</span><span v-else>за всё ваше время здесь</span>.</p>
+        <h2><span v-if="stat.myMessages > 0">{{ stat.myMessages.toLocaleString() }}</span><span v-else>{{ stat.allMessages.toLocaleString() }}</span> сообщений</h2>
+        <p v-if="stat.myMessages > 0">
+          вы <span v-if="year != -1">отправили в {{ year }} году</span><span v-else>успели отправить за всё время</span>. А получили {{ (stat.allMessages - stat.myMessages).toLocaleString() }}, вместе это {{ stat.allMessages.toLocaleString() }} сообщений!
+        </p>
+        <p v-else>
+          было <span v-if="year != -1">в {{ year }} году</span><span v-else>за всё ваше время здесь</span>.
+        </p>
       </div>
       <div v-if="stat.emojis.length > 0" class="most-popular-emoji">
         <h2>{{ stat.emojis[0][0] }}</h2>
