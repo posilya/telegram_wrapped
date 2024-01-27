@@ -88,6 +88,11 @@ export default {
           const chatStat = new ChatStatistic(chat.name)
 
           for (const message of chat.messages) {
+            // don't count forwarded messages
+            if (message.forwarded_from) {
+              continue
+            }
+
             /** Date of the message */
             const messageDate = new Date(message.date_unixtime * 1000)
 
