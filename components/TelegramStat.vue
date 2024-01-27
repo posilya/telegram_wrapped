@@ -45,6 +45,10 @@
         <p>Это самое длинное ахах, что вы написали<span v-if="year != -1"> в {{ year }} году</span>. Только вдуматься, целых {{ stat.longestAhah.text.length.toLocaleString() }} {{ declensionWordsFromNum(stat.longestAhah.text.length, ['символ', 'символа', 'символов'])}}!</p>
         <p>Вы посмеялись в чате с {{ stat.longestAhah.to }} {{ stat.longestAhah.date }}.</p>
       </div>
+      <div v-if="stat.words.length > 0" class="most-used-word">
+        <h2>{{ stat.words.slice(0, 5).map(place => place[0]).join(' ') }}</h2>
+        <p>Это предложение из ваших самых частых слов<span v-if="year != -1"> в {{ year }} году</span>.</p>
+      </div>
     </div>
   </div>
 </template>
