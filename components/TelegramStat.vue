@@ -28,9 +28,9 @@
         <p>{{ stat.firstMessage.text }}</p>
       </div>
       <div class="number-of-messages">
-        <h2><span v-if="stat.myMessages > 0">{{ stat.myMessages.toLocaleString() }}</span><span v-else>{{ stat.allMessages.toLocaleString() }}</span> сообщений</h2>
+        <h2><span v-if="stat.myMessages > 0">{{ stat.myMessages.toLocaleString() }}</span><span v-else>{{ stat.allMessages.toLocaleString() }}</span> {{ declensionWordsFromNum((stat.myMessages > 0 ? stat.myMessages : stat.allMessages), ['сообщение', 'сообщения', 'сообщений']) }}</h2>
         <p v-if="stat.myMessages > 0">
-          вы <span v-if="year != -1">отправили в {{ year }} году</span><span v-else>успели отправить за всё время</span>. А получили {{ (stat.allMessages - stat.myMessages).toLocaleString() }}, вместе это {{ stat.allMessages.toLocaleString() }} сообщений!
+          вы <span v-if="year != -1">отправили в {{ year }} году</span><span v-else>успели отправить за всё время</span>. А получили {{ (stat.allMessages - stat.myMessages).toLocaleString() }}, вместе это {{ stat.allMessages.toLocaleString() }} {{ declensionWordsFromNum(stat.allMessages, ['сообщение', 'сообщения', 'сообщений']) }}!
         </p>
         <p v-else>
           было <span v-if="year != -1">в {{ year }} году</span><span v-else>за всё ваше время здесь</span>.
