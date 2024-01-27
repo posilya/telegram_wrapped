@@ -40,6 +40,11 @@
         <h2>{{ stat.emojis[0][0] }}</h2>
         <p>Этот эмодзи вы чаще всего отправляли<span v-if="year != -1"> в {{ year }} году. Наверное, им можно описать весь ваш год</span>.</p>
       </div>
+      <div v-if="stat.longestAhah" class="longest-ahah">
+        <h2>{{ stat.longestAhah.text }}</h2>
+        <p>Это самое длинное ахах, что вы написали<span v-if="year != -1"> в {{ year }} году</span>. Только вдуматься, целых {{ stat.longestAhah.text.length.toLocaleString() }} {{ declensionWordsFromNum(stat.longestAhah.text.length, ['символ', 'символа', 'символов'])}}!</p>
+        <p>Вы посмеялись в чате с {{ stat.longestAhah.to }} {{ stat.longestAhah.date }}.</p>
+      </div>
     </div>
   </div>
 </template>

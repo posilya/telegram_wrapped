@@ -163,6 +163,11 @@ form > label[for=file] {
     margin: 0;
 }
 
+.longest-ahah > h2 {
+    word-break: break-all;
+    white-space: normal;
+}
+
 footer {
     padding: 37px 100px;
 }
