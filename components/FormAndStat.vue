@@ -143,7 +143,7 @@ export default {
         chats = chats.slice(0, 5)
 
         // sort emojis
-        emojis = new Map([...emojis.entries()].sort((a, b) => b[1] - a[1]))
+        emojis = Array.from(emojis.entries()).sort((a, b) => b[1] - a[1])
 
         const firstMessageDate = new Date(firstMessage.date_unixtime * 1000)
         firstMessage = {
