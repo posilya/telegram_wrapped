@@ -78,6 +78,9 @@ export default {
         /** User sended emoji collection */
         let emojis = new Map()
 
+        /** The longest sent ahah */
+        let longestAhah = null
+
         for (const chat of messages) {
           // count only personal chats
           if (chat.type !== 'personal_chat') {
@@ -121,6 +124,20 @@ export default {
                     }
                   }
                 }
+
+                // find the longest ahah
+                const messageAhahs = ChatStatistic.messageTextEntitiesToString(message).match(/[ахквсмпезжэъ=+\-_]+/gi)
+                if (messageAhahs) {
+                  for (const ahah of messageAhahs) {
+                    if (longestAhah == null || ahah.length > longestAhah.text.length) {
+                      longestAhah = {
+                        text: ahah,
+                        to: chat.name,
+                        date: message.date_unixtime
+                      }
+                    }
+                  }
+                }
               }
 
               // find the first message
@@ -155,13 +172,20 @@ export default {
           text: ChatStatistic.messageTextEntitiesToString(firstMessage)
         }
 
+        // edit the longest ahah date
+        if (longestAhah) {
+          const ahahDate = new Date(longestAhah.date * 1000)
+          longestAhah.date = `${ahahDate.getDate()} ${ChatStatistic.numToMonths[ahahDate.getMonth()]}${year === -1 ? ' ' + ahahDate.getFullYear() : ''}`
+        }
+
         return {
           chats,
           numberOfChats,
           firstMessage,
           emojis,
           allMessages,
-          myMessages
+          myMessages,
+          longestAhah
         }
       }
 
