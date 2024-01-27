@@ -81,6 +81,9 @@ export default {
         /** The longest sent ahah */
         let longestAhah = null
 
+        /** User sended words stat */
+        let words = new Map()
+
         for (const chat of messages) {
           // count only personal chats
           if (chat.type !== 'personal_chat') {
@@ -107,6 +110,12 @@ export default {
             if (message.type === 'message') {
               chatStat.incAllMessages()
               allMessages++
+
+              // find the first message
+              if (messageDate.getTime() < firstMessage.date_unixtime * 1000) {
+                firstMessage = message
+                firstMessage.chatName = chat.name
+              }
 
               // if this message is from user
               if (myId && message.from_id === `user${myId}`) {
@@ -138,12 +147,23 @@ export default {
                     }
                   }
                 }
-              }
 
-              // find the first message
-              if (messageDate.getTime() < firstMessage.date_unixtime * 1000) {
-                firstMessage = message
-                firstMessage.chatName = chat.name
+                // count words
+                const messageWords = ChatStatistic.messageTextEntitiesToString(message).match(/[a-zа-я-]+/gi)
+                if (messageWords) {
+                  for (let word of messageWords) {
+                    // don't count short words
+                    if (word.length < 3) {
+                      continue
+                    }
+                    word = word.toLowerCase()
+                    if (!words.has(word)) {
+                      words.set(word, 1)
+                    } else {
+                      words.set(word, words.get(word) + 1)
+                    }
+                  }
+                }
               }
             }
           }
@@ -178,6 +198,9 @@ export default {
           longestAhah.date = `${ahahDate.getDate()} ${ChatStatistic.numToMonths[ahahDate.getMonth()]}${year === -1 ? ' ' + ahahDate.getFullYear() : ''}`
         }
 
+        // sort words
+        words = Array.from(words.entries()).sort((a, b) => b[1] - a[1])
+
         return {
           chats,
           numberOfChats,
@@ -185,7 +208,8 @@ export default {
           emojis,
           allMessages,
           myMessages,
-          longestAhah
+          longestAhah,
+          words
         }
       }
 
