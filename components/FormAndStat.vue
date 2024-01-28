@@ -84,6 +84,17 @@ export default {
         /** User sended words stat */
         let words = new Map()
 
+        /** Counter day of the week */
+        let dayOfWeek = new Map([
+          [0, 0],
+          [1, 0],
+          [2, 0],
+          [3, 0],
+          [4, 0],
+          [5, 0],
+          [6, 0]
+        ])
+
         for (const chat of messages) {
           // count only personal chats
           if (chat.type !== 'personal_chat') {
@@ -116,6 +127,9 @@ export default {
                 firstMessage = message
                 firstMessage.chatName = chat.name
               }
+
+              // count day of the week
+              dayOfWeek.set(messageDate.getDay(), dayOfWeek.get(messageDate.getDay()) + 1)
 
               // if this message is from user
               if (myId && message.from_id === `user${myId}`) {
@@ -201,6 +215,9 @@ export default {
         // sort words
         words = Array.from(words.entries()).sort((a, b) => b[1] - a[1])
 
+        // sort week days
+        dayOfWeek = Array.from(dayOfWeek.entries()).sort((a, b) => b[1] - a[1])
+
         return {
           chats,
           numberOfChats,
@@ -209,7 +226,8 @@ export default {
           allMessages,
           myMessages,
           longestAhah,
-          words
+          words,
+          dayOfWeek
         }
       }
 
