@@ -40,6 +40,18 @@
         <h2>{{ stat.emojis[0][0] }}</h2>
         <p>Этот эмодзи вы чаще всего отправляли<span v-if="year != -1"> в {{ year }} году. Наверное, им можно описать весь ваш год</span>.</p>
       </div>
+      <div class="day-of-week">
+        <h2 v-if="stat.dayOfWeek[0][0] == 5">
+          Пятница-развратница
+        </h2>
+        <h2 v-else-if="stat.dayOfWeek[0][0] > 0 && stat.dayOfWeek[0][0] < 5">
+          #трудовыебудни
+        </h2>
+        <h2 v-else>
+          Активные выходные
+        </h2>
+        <p>Именно в {{ daysOfWeeks[stat.dayOfWeek[0][0]] }} у вас было больше всего сообщений<span v-if="year != -1"> в {{ year }} году</span>. Целых {{ stat.dayOfWeek[0][1].toLocaleString() }}!</p>
+      </div>
       <div v-if="stat.longestAhah" class="longest-ahah">
         <h2>{{ stat.longestAhah.text }}</h2>
         <p>Это самое длинное ахах, что вы написали<span v-if="year != -1"> в {{ year }} году</span>. Только вдуматься, целых {{ stat.longestAhah.text.length.toLocaleString() }} {{ declensionWordsFromNum(stat.longestAhah.text.length, ['символ', 'символа', 'символов'])}}!</p>
@@ -64,6 +76,11 @@ export default {
     year: {
       type: Number,
       default: null
+    }
+  },
+  data () {
+    return {
+      daysOfWeeks: ['воскресенье', 'понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу']
     }
   },
   methods: {
