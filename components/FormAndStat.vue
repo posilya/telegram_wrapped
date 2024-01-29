@@ -27,7 +27,7 @@ export default {
   mounted () {
     /**
      * Class for counting statistics
-          * @param {string} name - chat name
+     * @param {string} name - chat name
      * @param {number} allMessages - counter of all chat messages
      * @param {number} myMessages - counter of user chat messages
      */
