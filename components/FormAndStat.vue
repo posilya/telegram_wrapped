@@ -38,6 +38,12 @@ export default {
        */
       static numToMonths = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 
+      /**
+       * Array of prepositions and conjunctions
+       * @type {string[]}
+       */
+      static prepositionsConjunctions = ['а', 'в', 'на', 'под', 'с', 'из', 'по', 'у', 'за', 'к', 'о', 'от', 'до', 'перед', 'при', 'через', 'без', 'для', 'после', 'во', 'не', 'и', 'или', 'но', 'то', 'если', 'когда', 'чтобы', 'потому', 'ибо', 'что', 'это']
+
       #name
       #allMessages
       #myMessages
@@ -166,11 +172,13 @@ export default {
                 const messageWords = ChatStatistic.messageTextEntitiesToString(message).match(/[a-zа-я-]+/gi)
                 if (messageWords) {
                   for (let word of messageWords) {
-                    // don't count short words
-                    if (word.length < 3) {
+                    word = word.toLowerCase()
+
+                    // don't prepositions and conjunctions
+                    if (ChatStatistic.prepositionsConjunctions.includes(word)) {
                       continue
                     }
-                    word = word.toLowerCase()
+
                     if (!words.has(word)) {
                       words.set(word, 1)
                     } else {
