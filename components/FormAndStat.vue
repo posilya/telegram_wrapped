@@ -47,7 +47,7 @@ export default {
        * @param {string} name - chat name
        */
       constructor (name) {
-        this.#name = name
+        this.name = name
         this.#allMessages = 0
         this.#myMessages = 0
       }
