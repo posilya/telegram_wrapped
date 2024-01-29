@@ -208,7 +208,7 @@ export default {
 
         // sort words
         words = Array.from(words.entries()).sort((a, b) => b[1] - a[1])
-        console.log(words)
+
         return {
           chats,
           numberOfChats,
