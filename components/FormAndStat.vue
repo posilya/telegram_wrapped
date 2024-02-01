@@ -10,7 +10,7 @@
         </div>
       </form>
     </div>
-    <TelegramStat v-if="statIsShown" :stat="telegramStat" :year="statYear" />
+    <StatBlock v-if="statIsShown" :stat="telegramStat" :year="statYear" />
   </div>
 </template>
 
@@ -354,7 +354,7 @@ export default {
 
     // We fill in the years that you can choose
     const now = new Date()
-    const defaultYear = now.getMonth() === 1 ? now.getFullYear() : now.getFullYear() - 1
+    const defaultYear = now.getMonth() === 12 ? now.getFullYear() : now.getFullYear() - 1
 
     const years = []
     for (let year = now.getFullYear(); year >= 2013; year--) {
