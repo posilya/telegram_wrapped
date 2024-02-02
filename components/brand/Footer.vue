@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'SiteFooter'
+  name: 'BrandFooter'
 }
 </script>

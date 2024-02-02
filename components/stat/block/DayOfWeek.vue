@@ -1,0 +1,35 @@
+<template>
+  <div class="day-of-week">
+    <h2 v-if="dayOfWeek[0][0] == 5">
+      Пятница-развратница
+    </h2>
+    <h2 v-else-if="dayOfWeek[0][0] > 0 && dayOfWeek[0][0] < 5">
+      #трудовыебудни
+    </h2>
+    <h2 v-else>
+      Активные выходные
+    </h2>
+    <p>Именно в {{ daysOfWeeks[dayOfWeek[0][0]] }} у вас было больше всего сообщений<span v-if="year != -1"> в {{ year }} году</span>. Целых {{ dayOfWeek[0][1].toLocaleString() }}!</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'StatBlockDayOfWeek',
+  props: {
+    year: {
+      type: Number,
+      default: null
+    },
+    dayOfWeek: {
+      type: Array,
+      default: null
+    }
+  },
+  data () {
+    return {
+      daysOfWeeks: ['воскресенье', 'понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу']
+    }
+  }
+}
+</script>

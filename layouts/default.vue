@@ -1,7 +1,8 @@
 <template>
   <div>
-    <SiteLogo :site-name="'telegram_wrapped'" :is-beta="true" />
+    <BrandLogo :site-name="'telegram_wrapped'" :is-beta="true" />
     <Nuxt />
+    <BrandFooter />
   </div>
 </template>
 <script>

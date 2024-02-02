@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'SiteLogo',
+  name: 'BrandLogo',
   props: {
     siteName: {
       type: String,
