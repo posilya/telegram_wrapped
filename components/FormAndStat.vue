@@ -126,10 +126,10 @@ export default {
                 }
 
                 // find the longest ahah
-                const messageAhahs = ChatStatistic.messageTextEntitiesToString(message).match(/[ахквсмпезжэъ=+\-_]+/gi)
+                const messageAhahs = ChatStatistic.messageTextEntitiesToString(message).match(/[ахквсмпезжэъ=+\-_]{2,}/gi)
                 if (messageAhahs) {
                   for (const ahah of messageAhahs) {
-                    if (longestAhah == null || ahah.length > longestAhah.text.length) {
+                    if (/а.*[хр]|х.*[ап]/i.test(ahah) && (longestAhah == null || ahah.length > longestAhah.text.length)) {
                       longestAhah = {
                         text: ahah,
                         to: chat.name,
@@ -194,6 +194,9 @@ export default {
        * @param {object} message - message
        */
       static messageTextEntitiesToString (message) {
+        if (!message.text_entities) {
+          console.log(message)
+        }
         return message.text_entities.map(entity => entity.text).join('')
       }
 
