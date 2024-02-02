@@ -13,7 +13,6 @@
       </ul>
       <FormAndStat />
     </main>
-    <SiteFooter />
   </div>
 </template>
 
