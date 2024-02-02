@@ -10,7 +10,7 @@
         </div>
       </form>
     </div>
-    <StatBlock v-if="statIsShown" :stat="telegramStat" :year="statYear" />
+    <StatPresentation v-if="statIsShown" :stat="telegramStat" :year="statYear" />
   </div>
 </template>
 
