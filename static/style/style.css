@@ -32,7 +32,7 @@ body {
 }
 
 .fullscreen-head h1 {
-    font-size: 128px;
+    font-size: 128px; /* 47.78px */
     text-align: center;
 }
 
@@ -45,11 +45,11 @@ main {
 }
 
 h2 {
-    font-size: 48px;
+    font-size: 39.81px;
 }
 
 p, ul, form label, #year {
-    font-size: 32px;
+    font-size: 16px;
 }
 
 a {
@@ -135,7 +135,7 @@ form > label[for=file] {
     height: 50px;
     margin-right: 23px;
     text-align: center;
-    font-size: 36px;
+    font-size: 16px;
 
     background-color: var(--bg-color);
 }
@@ -174,5 +174,5 @@ footer {
 
 footer p {
     margin: 0;
-    font-size: 20px;
+    font-size: 16px;
 }
