@@ -53,7 +53,7 @@ export default {
        * @param {string} name - chat name
        */
       constructor (name) {
-        this.name = name
+        this._name = String(name)
         this.#allMessages = 0
         this.#myMessages = 0
       }
@@ -255,15 +255,7 @@ export default {
        * @returns {string}
        */
       get name () {
-        return this.#name
-      }
-
-      /**
-       * chat name
-       * @param {string} name - chat name
-       */
-      set name (name) {
-        this.#name = String(name)
+        return this._name
       }
 
       /**
