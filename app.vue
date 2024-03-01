@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <NuxtLayout>
     <div class="fullscreen-head">
       <h1>Ваши итоги года в&nbsp;<span class="highlighted">Telegram</span></h1>
     </div>
@@ -13,11 +13,11 @@
       </ul>
       <FormAndStat />
     </main>
-  </div>
+  </NuxtLayout>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  layout: 'DefaultLayout'
 }
 </script>
