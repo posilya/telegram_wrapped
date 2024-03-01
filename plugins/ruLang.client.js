@@ -1,5 +1,7 @@
-export default ({ app }, inject) => {
-  inject('declensionWordsFromNum', (number, words) => {
+import { defineNuxtPlugin } from '#app'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.provide('declensionWordsFromNum', (number, words) => {
     number = Math.abs(number) % 100
     const n = number % 10
     if (number > 10 && number < 20) {
@@ -13,4 +15,4 @@ export default ({ app }, inject) => {
     }
     return words[2]
   })
-}
+})
