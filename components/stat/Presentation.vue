@@ -3,8 +3,13 @@
     <div v-if="!stat || !year" id="stat-presentation">
       <StatError />
     </div>
-    <div v-else-if="stat.numberOfChats === 0" id="stat-presentation">
-      <StatWarning :message="`В ${year} году не было сообщений`" />
+    <div v-else-if="stat.numberOfChats === 0">
+      <div v-if="year !== -1" id="stat-presentation">
+        <StatWarning :message="`В ${year} году не было сообщений`" />
+      </div>
+      <div v-else id="stat-presentation">
+        <StatWarning :message="'У вас ещё не было сообщений. Но всё впереди!'" />
+      </div>
     </div>
     <div v-else id="stat-presentation">
       <StatBlockTopChats :year="year" :number-of-chats="stat.numberOfChats" :chats="stat.chats" />
