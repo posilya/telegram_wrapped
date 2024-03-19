@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import device from '@nuxtjs/device'
 
 export default defineNuxtConfig({
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -33,7 +34,8 @@ export default defineNuxtConfig({
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    device
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

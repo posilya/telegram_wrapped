@@ -1,11 +1,11 @@
 <template>
   <div>
-    <p v-if="!stat || !year">
-      Что-то пошло не так…
-    </p>
-    <p v-else-if="stat.numberOfChats === 0">
-      В {{ year }} году не было сообщений
-    </p>
+    <div v-if="!stat || !year" id="stat-presentation">
+      <StatError />
+    </div>
+    <div v-else-if="stat.numberOfChats === 0" id="stat-presentation">
+      <StatWarning :message="`В ${year} году не было сообщений`" />
+    </div>
     <div v-else id="stat-presentation">
       <StatBlockTopChats :year="year" :number-of-chats="stat.numberOfChats" :chats="stat.chats" />
       <StatBlockFirstMessage :year="year" :first-message="stat.firstMessage" />
@@ -20,6 +20,8 @@
 <script setup>
 import { onMounted, onUpdated, ref } from 'vue'
 
+const device = useDevice()
+
 const props = defineProps({
   stat: {
     type: Object,
@@ -33,19 +35,32 @@ const props = defineProps({
 
 const { stat, year } = props
 
+/** Is this Firefox or Safari */
+let isNormalBrowser = false
+
 /** List of slides */
 const slides = ref(null)
 
 /** Old scroll  */
 let oldScroll = window.scrollY
 
-let scrollingInProgress = false
-
-const changeSlide = async () => {
-  if (scrollingInProgress) {
-    return
+/**
+ * Scroll to block
+ * @param {HTMLElement} element - DOM element to scroll to
+ * @param {object} params - scroll options
+ */
+const scrollToBlock = (element, params = { }) => {
+  if (isNormalBrowser && !params.behavior) {
+    params.behavior = 'smooth'
   }
 
+  element.scrollIntoView(params)
+}
+
+/**
+ * Search for the slide to go to and scroll to it
+ */
+const changeSlide = () => {
   const currentScroll = window.scrollY
   const clientHeight = document.documentElement.clientHeight
 
@@ -62,17 +77,13 @@ const changeSlide = async () => {
 
       if (index === 0) {
         if (slidePosition > 0 && slidePosition < clientHeight / 3) {
-          scrollingInProgress = true
-          await slide.scrollIntoView({ behavior: 'smooth' })
-          scrollingInProgress = false
+          scrollToBlock(slide)
           break
         }
       }
 
       if (slidePosition > 0 && slidePosition < clientHeight * 0.4) {
-        scrollingInProgress = true
-        await slide.scrollIntoView({ behavior: 'smooth' })
-        scrollingInProgress = false
+        scrollToBlock(slide)
         break
       }
     }
@@ -82,9 +93,7 @@ const changeSlide = async () => {
       const slidePosition = clientHeight - slide.getBoundingClientRect().bottom
 
       if (slidePosition > 0 && slidePosition < clientHeight * 0.6) {
-        scrollingInProgress = true
-        await slide.scrollIntoView({ behavior: 'smooth', block: 'end' })
-        scrollingInProgress = false
+        scrollToBlock(slide, { block: 'end' })
         break
       }
     }
@@ -93,24 +102,22 @@ const changeSlide = async () => {
   oldScroll = window.scrollY
 }
 
-onMounted(async () => {
+onMounted(() => {
   slides.value = document.querySelectorAll('#stat-presentation > div')
 
-  scrollingInProgress = true
-  await slides.value[0].scrollIntoView({ behavior: 'smooth' })
-  scrollingInProgress = false
+  isNormalBrowser = (device.isFirefox || device.isSafari)
+
+  scrollToBlock(slides.value[0])
 
   oldScroll = window.scrollY
 
-  window.addEventListener('scroll', changeSlide)
+  window.addEventListener('scrollend', changeSlide)
 })
 
-onUpdated(async () => {
+onUpdated(() => {
   slides.value = document.querySelectorAll('#stat-presentation > div')
 
-  await slides.value[0].scrollIntoView({ behavior: 'smooth' })
-
-  oldScroll = window.scrollY
+  scrollToBlock(slides.value[0])
 })
 
 </script>
