@@ -16,6 +16,7 @@
     "@nuxtjs/eslint-module": "^4.1.0",
     "@vue/compat": "^3.4.19",
     "ajv": "^7",
+    "consola": "^3.2.3",
     "core-js": "^3.25.3",
     "defu": "^6.1.4",
     "vue": "3.4.19",

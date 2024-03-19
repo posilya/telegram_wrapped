@@ -111,6 +111,10 @@ a:hover {
     background-size: 100% 100%;
 }
 
+.stat-file {
+    padding: 0 var(--indentation);
+}
+
 .file-upload-icon {
     width: 26px;
     height: 26px;
@@ -158,6 +162,11 @@ form > label[for=file] {
     background-repeat: no-repeat;
     outline: none;
     cursor: pointer;
+}
+
+#stat-presentation > div {
+    min-height: 100lvh;
+    padding: 0 var(--indentation);
 }
 
 .top-contacts {

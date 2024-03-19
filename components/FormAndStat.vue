@@ -10,7 +10,7 @@
         </div>
       </form>
     </div>
-    <StatPresentation v-if="statIsShown" :stat="telegramStat" :year="statYear" />
+    <StatPresentation v-if="statIsShown" :key="statKey" :stat="telegramStat" :year="statYear" />
   </div>
 </template>
 
@@ -24,6 +24,7 @@ const yearSelect = ref(null)
 const statIsShown = ref(false)
 const telegramStat = ref(null)
 const statYear = ref(null)
+const statKey = ref(0)
 
 /**
  * Class for counting statistics
@@ -299,6 +300,7 @@ class ChatStatistic {
 const showStat = (stat, year) => {
   telegramStat.value = stat
   statYear.value = year
+  statKey.value++
   statIsShown.value = true
 }
 
