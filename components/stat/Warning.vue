@@ -14,3 +14,9 @@ const props = defineProps({
 
 const { message } = props
 </script>
+
+<style lang="stylus">
+.warning
+  background-color $dark-yellow
+  color #000
+</style>
