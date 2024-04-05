@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+@font-face {
+    font-family: 'RocketFont';
+    src: url(../font/RocketFont.woff) format('woff');
+    font-style: normal;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 480px) {
     :root {
         --indentation: 15px;
@@ -7,6 +14,7 @@
 
     .fullscreen-head h1 {
         font-size: 36px !important;
+        bottom: -7px;
     }
 }
 
@@ -17,6 +25,7 @@
 
     .fullscreen-head h1 {
         font-size: 76px !important;
+        bottom: -15px;
     }
 }
 
@@ -27,10 +36,12 @@
     
     .fullscreen-head h1 {
         font-size: 128px !important;
+        bottom: -26px;
     }
 }
 
 :root {
+    --title-font: RocketFont, var(--font);
     --font: Onest, system-ui, sans-serif;
     --blue: #0066F5;
     font-family: var(--font) !important;
@@ -56,15 +67,17 @@ body {
 
 .fullscreen-head {
     display: flex;
-    align-items: center;
+    align-items: end;
     justify-content: center;
-    height: 100dvh;
+    height: 100svh;
     padding: var(--indentation);
     box-sizing: border-box;
 }
 
 .fullscreen-head h1 {
-    text-align: center;
+    position: relative;
+    margin: 0;
+    font-family: var(--title-font);
 }
 
 .highlighted {
@@ -96,6 +109,10 @@ a {
 a:hover {
     color: #fff;
     background-size: 100% 100%;
+}
+
+.stat-file {
+    padding: 0 var(--indentation);
 }
 
 .file-upload-icon {
@@ -145,6 +162,11 @@ form > label[for=file] {
     background-repeat: no-repeat;
     outline: none;
     cursor: pointer;
+}
+
+#stat-presentation > div {
+    min-height: 100lvh;
+    padding: 0 var(--indentation);
 }
 
 .top-contacts {
