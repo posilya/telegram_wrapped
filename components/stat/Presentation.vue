@@ -22,6 +22,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { onMounted, onUpdated, ref } from 'vue'
 
@@ -126,3 +127,15 @@ onUpdated(() => {
 })
 
 </script>
+
+<style lang="stylus">
+#stat-presentation > div
+  padding 25px
+  box-sizing border-box
+
+  & > *:first-child
+    margin-top 0px
+
+  & > *:last-child
+    margin-bottom 0px
+</style>

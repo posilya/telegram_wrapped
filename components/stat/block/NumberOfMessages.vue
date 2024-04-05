@@ -29,3 +29,9 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.number-of-messages
+  background-color $blue
+  color #fff
+</style>

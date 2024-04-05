@@ -21,3 +21,15 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.longest-ahah
+  background-color $yellow
+  display inline-block
+
+  h2
+    background-color #fff
+    padding 11px 14px 6px 14px
+    border-radius 13px
+    box-shadow 0px 9px 16px #ada200
+</style>

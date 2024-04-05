@@ -20,3 +20,9 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.first-message
+  background-color $green
+  color #fff
+</style>
