@@ -23,6 +23,5 @@ export default {
 
 <style lang="stylus">
 .first-message
-  background-color $green
-  color #fff
+  slide($green)
 </style>

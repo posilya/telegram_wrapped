@@ -36,12 +36,10 @@ export default {
 
 <style lang="stylus">
 .day-of-week
-  color #fff
-
   &.friday
-    background-color $red
+    slide($red)
   &.working-days
-    background-color $gray
+    slide($gray)
   &.weekends
-    background-color $violet
+    slide($violet)
 </style>

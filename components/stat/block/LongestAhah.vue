@@ -24,8 +24,7 @@ export default {
 
 <style lang="stylus">
 .longest-ahah
-  background-color $yellow
-  display inline-block
+  slide($yellow)
 
   h2
     background-color #fff

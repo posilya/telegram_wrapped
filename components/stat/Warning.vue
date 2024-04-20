@@ -17,6 +17,6 @@ const { message } = props
 
 <style lang="stylus">
 .warning
-  background-color $dark-yellow
+  slide($dark-yellow)
   color #000
 </style>

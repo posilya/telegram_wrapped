@@ -32,6 +32,5 @@ export default {
 
 <style lang="stylus">
 .number-of-messages
-  background-color $blue
-  color #fff
+  slide($blue)
 </style>

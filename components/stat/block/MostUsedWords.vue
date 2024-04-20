@@ -23,8 +23,7 @@ export default {
 
 <style lang="stylus">
 .most-used-words
-  background-color $blue
-  color #fff
+  slide($blue)
 
   h2
     display inline-block

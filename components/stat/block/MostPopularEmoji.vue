@@ -23,7 +23,7 @@ export default {
 
 <style lang="stylus">
 .most-popular-emoji
-  background-color $yellow
+  slide($yellow)
 
   h2
     display inline-block

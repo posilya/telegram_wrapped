@@ -17,6 +17,6 @@ const { message } = props
 
 <style lang="stylus">
 .error
-  background-color $dark-red
+  slide($dark-red)
   color #fff
 </style>
