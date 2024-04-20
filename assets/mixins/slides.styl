@@ -1,0 +1,22 @@
+$slide-indent = 25px
+
+contrast-color($background-color)
+  $red = red($background-color)
+  $green = green($background-color)
+  $blue = blue($background-color)
+
+  $brightness = ($red * 299 + $green * 587 + $blue * 114) / 1000
+
+  background-color $background-color
+  if $brightness > 150
+    return #000000
+  else
+    return #ffffff
+
+slide($background-color = #ffffff)
+  background-color $background-color
+  color contrast-color($background-color)
+
+  > *
+    margin 0
+    margin-bottom 0.6em

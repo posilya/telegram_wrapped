@@ -29,7 +29,9 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         stylus: {
-          additionalData: `@import "${resolve(__dirname, './')}/assets/variables/colors.styl"`
+          additionalData: `
+          @import "${resolve(__dirname, './')}/assets/variables/colors.styl"
+          @import "${resolve(__dirname, './')}/assets/mixins/slides.styl"`
         }
       }
     }
