@@ -21,3 +21,14 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.longest-ahah
+  slide($yellow)
+
+  h2
+    background-color #fff
+    padding 11px 14px 6px 14px
+    border-radius 13px
+    box-shadow 0px 9px 16px #ada200
+</style>

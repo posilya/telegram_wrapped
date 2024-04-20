@@ -20,3 +20,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.first-message
+  slide($green)
+</style>

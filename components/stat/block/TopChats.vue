@@ -36,3 +36,11 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.top-chats
+  slide(#ffffff)
+
+  .top-contacts
+    gap 30px
+</style>

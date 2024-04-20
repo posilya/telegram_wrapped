@@ -19,6 +19,7 @@
     "consola": "^3.2.3",
     "core-js": "^3.25.3",
     "defu": "^6.1.4",
+    "stylus": "^0.63.0",
     "vue": "3.4.19",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"

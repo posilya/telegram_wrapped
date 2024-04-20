@@ -1,5 +1,5 @@
 <template>
-  <div class="day-of-week">
+  <div class="day-of-week" :class="{ friday: dayOfWeek[0][0] == 5, 'working-days': dayOfWeek[0][0] > 0 && dayOfWeek[0][0] < 5, weekends: dayOfWeek[0][0] > 5 && dayOfWeek[0][0] < 7 }">
     <h2 v-if="dayOfWeek[0][0] == 5">
       Пятница-развратница
     </h2>
@@ -33,3 +33,13 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.day-of-week
+  &.friday
+    slide($red)
+  &.working-days
+    slide($gray)
+  &.weekends
+    slide($violet)
+</style>

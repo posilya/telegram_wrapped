@@ -1,3 +1,4 @@
+import { resolve } from 'path'
 import { defineNuxtConfig } from 'nuxt/config'
 import device from '@nuxtjs/device'
 
@@ -23,6 +24,18 @@ export default defineNuxtConfig({
   css: [
     '@/public/style/style.css'
   ],
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        stylus: {
+          additionalData: `
+          @import "${resolve(__dirname, './')}/assets/variables/colors.styl"
+          @import "${resolve(__dirname, './')}/assets/mixins/slides.styl"`
+        }
+      }
+    }
+  },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [

@@ -5,7 +5,7 @@
     </div>
     <div v-else-if="stat.numberOfChats === 0">
       <div v-if="year !== -1" id="stat-presentation">
-        <StatWarning :message="`В ${year} году не было сообщений`" />
+        <StatWarning :message="`В ${year} году не было сообщений.`" />
       </div>
       <div v-else id="stat-presentation">
         <StatWarning :message="'У вас ещё не было сообщений. Но всё впереди!'" />
@@ -22,6 +22,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { onMounted, onUpdated, ref } from 'vue'
 
@@ -126,3 +127,15 @@ onUpdated(() => {
 })
 
 </script>
+
+<style lang="stylus">
+#stat-presentation > div
+  padding $slide-indent
+  box-sizing border-box
+
+  & > *:first-child
+    margin-top 0px
+
+  & > *:last-child
+    margin-bottom 0px
+</style>

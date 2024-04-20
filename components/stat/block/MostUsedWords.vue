@@ -20,3 +20,16 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.most-used-words
+  slide($blue)
+
+  h2
+    display inline-block
+    background-color #fff
+    color #000
+    padding 11px 14px 6px 14px
+    border-radius 13px
+    box-shadow 0px 9px 16px #00337a
+</style>

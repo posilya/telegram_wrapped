@@ -29,3 +29,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.number-of-messages
+  slide($blue)
+</style>
