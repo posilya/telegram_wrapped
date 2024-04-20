@@ -130,7 +130,7 @@ onUpdated(() => {
 
 <style lang="stylus">
 #stat-presentation > div
-  padding 25px
+  padding $slide-indent
   box-sizing border-box
 
   & > *:first-child

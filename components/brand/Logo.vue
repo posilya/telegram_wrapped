@@ -17,3 +17,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.logo
+  z-index 999
+</style>

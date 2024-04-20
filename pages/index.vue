@@ -21,3 +21,22 @@ export default {
   layout: 'DefaultLayout'
 }
 </script>
+
+<style lang="stylus">
+.fullscreen-head
+  margin-bottom 2em
+
+  h1
+    line-height 1
+
+main
+  h2
+    margin-top 0
+
+  ul
+    padding-left 1em
+    margin-top 0
+
+  > *
+    margin-bottom 0.5em
+</style>
