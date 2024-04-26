@@ -20,5 +20,5 @@ export default {
 
 <style lang="stylus">
 .logo
-  z-index 999
+  z-index 1
 </style>
