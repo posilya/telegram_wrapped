@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NotPCWarning />
     <div class="fullscreen-head">
       <h1>Ваши итоги года в&nbsp;<span class="highlighted">Telegram</span></h1>
     </div>

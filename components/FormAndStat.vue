@@ -11,7 +11,6 @@
       </form>
     </div>
     <StatPresentation v-if="statIsShown" :key="statKey" :stat="telegramStat" :year="statYear" />
-    <ModalWindow />
   </div>
 </template>
 

@@ -11,3 +11,8 @@ export default {
   name: 'DefaultLayout'
 }
 </script>
+
+<style lang="stylus">
+body.no-scroll
+  overflow hidden
+</style>
