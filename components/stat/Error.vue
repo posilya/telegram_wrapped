@@ -1,6 +1,9 @@
 <template>
   <div class="error">
-    <h2>{{ message }}</h2>
+    <h2>{{ message.head }}</h2>
+    <p v-if="message.body">
+      {{ message.body }}
+    </p>
   </div>
 </template>
 
