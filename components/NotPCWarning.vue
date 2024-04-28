@@ -19,18 +19,6 @@ import { ref, watch } from 'vue'
 const device = useDevice()
 
 const show = ref(!device.isDesktop)
-
-const changeScrollability = async () => {
-  if (show.value) {
-    document.body.classList.add('no-scroll')
-  } else {
-    document.body.classList.remove('no-scroll')
-  }
-}
-
-watch(show, changeScrollability)
-
-changeScrollability()
 </script>
 
 <style lang="stylus">
@@ -94,4 +82,7 @@ changeScrollability()
 
     & > *:last-child
       margin-bottom 0
+
+body:has(.modal-background)
+  overflow hidden
 </style>
