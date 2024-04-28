@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <span>pos_ilya.dev/</span>
+    <span>pos_ilya/</span>
     <span class="site-name">{{ siteName }}<span v-if="isBeta" class="beta" /></span>
   </div>
 </template>
@@ -20,5 +20,5 @@ export default {
 
 <style lang="stylus">
 .logo
-  z-index 999
+  z-index 1
 </style>

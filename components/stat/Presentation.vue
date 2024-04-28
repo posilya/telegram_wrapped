@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="!stat || !year" id="stat-presentation">
+    <div v-if="stat.error" id="stat-presentation">
+      <StatError :message="stat.error" />
+    </div>
+    <div v-else-if="!stat || !year" id="stat-presentation">
       <StatError />
     </div>
     <div v-else-if="stat.numberOfChats === 0">

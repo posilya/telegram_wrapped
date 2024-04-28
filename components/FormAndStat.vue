@@ -247,9 +247,6 @@ class ChatStatistic {
    * @param {object} message - message
    */
   static messageTextEntitiesToString (message) {
-    if (!message.text_entities) {
-      console.log(message)
-    }
     return message.text_entities.map(entity => entity.text).join('')
   }
 
@@ -315,25 +312,60 @@ onMounted(() => {
     reader.readAsText(file.value.files[0])
 
     reader.onload = () => {
-      const results = JSON.parse(reader.result)
-      const myId = typeof results.personal_information === 'undefined' ? null : results.personal_information.user_id
+      try {
+        const results = JSON.parse(reader.result)
+        const myId = typeof results.personal_information === 'undefined' ? null : results.personal_information.user_id
 
-      if (typeof results.chats === 'undefined') {
-        throw new TypeError('No chats')
+        if (typeof results.chats === 'undefined') {
+          throw new TypeError('No chats')
+        }
+
+        const chats = results.chats.list
+        const stat = ChatStatistic.countStat(chats, myId, Number(yearSelect.value.value))
+
+        showStat(stat, Number(yearSelect.value.value))
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          showStat(
+            {
+              error: {
+                head: 'Вы загрузили не тот файл',
+                body: 'Он должен называться result.json'
+              }
+            }
+          )
+        } else if (error instanceof TypeError) {
+          showStat(
+            {
+              error: {
+                head: 'В файле нет сообщений в личных чатах',
+                body: 'В настройках экспорта должна стоять галочка «Личные чаты»'
+              }
+            }
+          )
+        } else {
+          showStat(
+            {
+              error: {
+                head: 'Что-то пошло не так :('
+              }
+            }
+          )
+        }
       }
-
-      const chats = results.chats.list
-      const stat = ChatStatistic.countStat(chats, myId, Number(yearSelect.value.value))
-
-      console.log(stat)
-      showStat(stat, Number(yearSelect.value.value))
     }
 
     reader.onerror = () => {
-      console.log(reader.error)
+      showStat(
+        {
+          error: {
+            head: 'При чтении фала что-то пошло не так :(',
+            body: 'Можете попробовать ещё раз, вдруг получится'
+          }
+        }
+      )
     }
   }
-
   file.value.addEventListener('change', updateStat)
   yearSelect.value.addEventListener('change', updateStat)
 
